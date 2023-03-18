@@ -4,6 +4,24 @@ import matplotlib.pyplot as plt
 import os
 import sys
 import seaborn as sns
+import flask as fl
+from flask import Flask, render_template, request, redirect, url_for, flash
+
+# create a flask app
+app = fl.Flask(__name__)
+
+# create a route for the app
+@app.route('/')
+def home():
+    return "Test"
+
+def index():
+    return fl.render_template('index.html')
+
+# run the app
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
+
 
 # Read the CSV file into a pandas DataFrame
 df = pd.read_csv('cars.csv')
