@@ -13,10 +13,15 @@ app = fl.Flask(__name__)
 # create a route for the app
 @app.route('/')
 def home():
-    return "Test"
+    return fl.render_template('home.html')
 
 def index():
     return fl.render_template('index.html')
+
+@app.route('/cars', methods=['POST'])
+def cars():
+    car = request.form['car']
+    return render_template('cars.html', car=car)
 
 # run the app
 if __name__ == '__main__':
