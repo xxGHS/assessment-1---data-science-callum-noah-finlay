@@ -5,26 +5,20 @@ import os
 import sys
 import seaborn as sns
 import flask as fl
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, url_for
+from jinja2 import Template
 
 # create a flask app
 app = fl.Flask(__name__)
 
-# create a route for the app
-@app.route('/')
-def home():
-    return "Test"
-
-def index():
-    return fl.render_template('index.html')
-
-# run the app
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
-
-
 # Read the CSV file into a pandas DataFrame
 df = pd.read_csv('cars.csv')
+
+# Remove duplicates from the "Model" column and keep the first occurrence of each unique value
+df = df.drop_duplicates(subset="Model", keep="first")
+
+brand = "Toyota"
+models = df.loc[df["Brand"] == brand]["Model"].values
 
 # Show the first 5 rows of the DataFrame
 print(df.head())
@@ -51,6 +45,29 @@ print(models)
 
 # Get unique brands
 unique_brands = np.unique(df['Brand'])
+
+html = df.to_html('converted_file.html')
+
+# turn the car brands into a html file and save it as brands.html
+brands = df['Brand'].unique()
+brands = pd.DataFrame(brands)
+brands.to_html('brands.html')
+
+
+# create a route for the app
+
+@app.route('/')
+def home(name=None):
+    items = pd.unique(df['Brand'])
+    return fl.render_template('home.html', items=items)
+
+@app.route('/main')
+def main():
+    return fl.render_template('main.html')
+
+# run the app
+if __name__ == '__main__':
+    app.run()
 
 # Take user input for brand
 print("Available brands: ", unique_brands)
@@ -101,3 +118,9 @@ plt.xlabel('Company Name')
 plt.ylabel('Number of cars')
 plt.xticks(rotation=45)
 plt.show()
+
+# write html to let the user select the brand
+html = df.to_html('converted_file.html')   
+brands = df['Brand'].unique()
+brands = pd.DataFrame(brands)
+brands.to_html('brands.html')
