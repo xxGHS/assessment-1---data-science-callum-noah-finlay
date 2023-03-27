@@ -11,6 +11,24 @@ from jinja2 import Template
 # create a flask app
 app = fl.Flask(__name__)
 
+# create a route for the app
+@app.route('/')
+def home():
+    return fl.render_template('home.html')
+
+def index():
+    return fl.render_template('index.html')
+
+@app.route('/cars', methods=['POST'])
+def cars():
+    car = request.form['car']
+    return render_template('cars.html', car=car)
+
+# run the app
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
+
+
 # Read the CSV file into a pandas DataFrame
 df = pd.read_csv('cars.csv')
 
