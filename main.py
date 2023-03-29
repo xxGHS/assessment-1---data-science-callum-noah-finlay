@@ -62,9 +62,9 @@ def home(name=None):
     if request.method == "POST":
        # getting input with name = fname in HTML form
        brandreturn = request.form.get("brandentry")
-       brandreturnstring = str(brandreturn)
        data = data[data['Brand'] == brandreturn]
-       return render_template("modelselect.html", tables=[data.to_html()], titles=data.columns.values, brandreturn=brandreturn)
+       options = [{'label': i, 'value': i} for i in data['Model'].unique()]
+       return render_template("modelselect.html", tables=[data.to_html()], titles=data.columns.values, brandreturn=brandreturn, options = options)
     return fl.render_template('home.html', tables=[data.to_html()], titles=data.columns.values, options = options)
 
 @app.route('/modelselect')
