@@ -45,3 +45,7 @@ You must make progress and document the progress using GitHub.
 There will be a weekly 'check in' with me to see progress.
 
 Good luck
+
+----- ACTUAL README STARTS HERE -----
+Our documentation was done making use of Gitbook, which is linked below.
+https://app.gitbook.com/o/rDCtoWjTiFnv3zvbRYmo/s/YUrdCeAE81CNhdUbKl5H/
