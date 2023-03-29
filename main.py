@@ -5,7 +5,7 @@ import os
 import sys
 import seaborn as sns
 import flask as fl
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from jinja2 import Template
 
 # create a flask app
@@ -13,9 +13,11 @@ app = fl.Flask(__name__)
 
 # Read the CSV file into a pandas DataFrame
 df = pd.read_csv('cars.csv')
+dfmodels = pd.read_csv('cars (Models).csv')
 
 # Remove duplicates from the "Model" column and keep the first occurrence of each unique value
 df = df.drop_duplicates(subset="Model", keep="first")
+dfmodels = dfmodels.drop_duplicates(subset="Model", keep="first")
 
 brand = "Toyota"
 models = df.loc[df["Brand"] == brand]["Model"].values
@@ -50,19 +52,38 @@ html = df.to_html('converted_file.html')
 
 # turn the car brands into a html file and save it as brands.html
 brands = df['Brand'].unique()
-brands = pd.DataFrame(brands)
-brands.to_html('brands.html')
 
 # create a route for the app
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def home(name=None):
     data = pd.read_csv('cars.csv')
-    return fl.render_template('home.html', tables=[data.to_html()], titles=data.columns.values, brands = brands)
+    options = [{'label': i, 'value': i} for i in df['Brand'].unique()]
+    if request.method == "POST":
+       # getting input with name = fname in HTML form
+       brandreturn = request.form.get("brandentry")
+       brandreturnstring = str(brandreturn)
+       data = data[data['Brand'] == brandreturn]
+       return render_template("modelselect.html", tables=[data.to_html()], titles=data.columns.values, brandreturn=brandreturn)
+    return fl.render_template('home.html', tables=[data.to_html()], titles=data.columns.values, options = options)
 
-@app.route('/main')
-def main():
-    return fl.render_template('main.html')
+@app.route('/modelselect')
+def modela():
+    data = pd.read_csv('cars.csv')
+    options = [{'label': i, 'value': i} for i in dfmodels['Model'].unique()]
+    return fl.render_template('modelselect.html', tables=[data.to_html()], titles=data.columns.values, options = options)
+
+@app.route('/priceselect')
+def pricea():
+    data = pd.read_csv('cars.csv')
+    options = [{'label': i, 'value': i} for i in df['Price'].unique()]
+    return fl.render_template('priceselect.html', tables=[data.to_html()], titles=data.columns.values, options = options)
+
+@app.route('/gearboxselect')
+def gearboxa():
+    data = pd.read_csv('cars.csv')
+    options = [{'label': i, 'value': i} for i in df['Gearbox'].unique()]
+    return fl.render_template('gearboxselect.html', tables=[data.to_html()], titles=data.columns.values, options = options)
 
 # run the app
 if __name__ == '__main__':
@@ -123,3 +144,5 @@ html = df.to_html('converted_file.html')
 brands = df['Brand'].unique()
 brands = pd.DataFrame(brands)
 brands.to_html('brands.html')
+
+(df.loc[df['Brands'] == 'input'])

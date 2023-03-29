@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<p> test </p>
+<p>Variable: {{ brandreturn }}</p>
+<form method="POST" style="margin-left: 20px;">
+  <label for="Model">Select a model:</label>
+  <select id="Model" name="model">
+      {% for option in options %}
+      <option value="{{ option['value'] }}">{{ option['label'] }}</option>
+      {% endfor %}
+  </select>
+<button onclick="location.href='http://127.0.0.1:5000/price'" type="button">
+    www.example.com</button>
+<title> Table </title>
+</head>
+<body>
+<div align="center">
+<table>
+<h1>
+<!--Displaying the converted table-->
+{% for table in tables %}
+<h2>{{titles[loop.index]}}</h2>
+{{ table|safe }}
+{% endfor %}
+</h1>
+</table>
+</div>
+</body>
+</html>
+<script>
+const BrandVar = ["{{ Brands }}"];
+BrandVar.forEach((element) => {
+  var option = document.createElement("option");
+  option.text = element;
+  option.value = element;
+  var select = document.getElementById("BrandSelect");
+  select.appendChild(option);
+})
+</script>
