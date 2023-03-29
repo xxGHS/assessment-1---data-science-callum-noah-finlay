@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<p> test </p>
-<p>Variable: {{ brandreturn }}</p>
+<p> Template: ModelSelect </p>
+<p>Variable: {{ modelreturn }}</p>
 <form method="POST" style="margin-left: 20px;">
   <label for="Model">Select a model:</label>
-  <select id="Model" name="model">
+  <select id="Model" name="modelentry">
       {% for option in options %}
       <option value="{{ option['value'] }}">{{ option['label'] }}</option>
       {% endfor %}
   </select>
-<button onclick="location.href='http://127.0.0.1:5000/price'" type="button">
-    www.example.com</button>
+  <button type="submit">Price Select</button>
 <title> Table </title>
 </head>
 <body>

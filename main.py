@@ -7,7 +7,7 @@ import seaborn as sns
 import flask as fl
 from flask import Flask, render_template, url_for, request
 from jinja2 import Template
-
+import json
 # create a flask app
 app = fl.Flask(__name__)
 
@@ -57,14 +57,43 @@ brands = df['Brand'].unique()
 
 @app.route('/', methods=["GET", "POST"])
 def home(name=None):
+    pagevariable = 0
     data = pd.read_csv('cars.csv')
     options = [{'label': i, 'value': i} for i in df['Brand'].unique()]
+    modelreturn = '0'
+    brandreturn = '0'
     if request.method == "POST":
-       # getting input with name = fname in HTML form
-       brandreturn = request.form.get("brandentry")
-       data = data[data['Brand'] == brandreturn]
-       options = [{'label': i, 'value': i} for i in data['Model'].unique()]
-       return render_template("modelselect.html", tables=[data.to_html()], titles=data.columns.values, brandreturn=brandreturn, options = options)
+        if 'brandentry' in request.form:
+            modelreturn = request.form.get("brandentry")
+            data = data[data['Brand'] == modelreturn]
+            options = [{'label': i, 'value': i} for i in data['Model'].unique()]
+            return render_template("modelselect.html", tables=[data.to_html()], titles=data.columns.values, modelreturn=modelreturn, options = options)
+        elif 'modelentry' in request.form:
+            pricereturn = request.form.get("modelentry")
+            data = data[data['Model'] == pricereturn]
+            options = [{'label': i, 'value': i} for i in data['Price'].unique()]
+            currentbrand = data['Brand'].unique()
+            currentmodel = data['Model'].unique()
+            lowest = data['Price'].min()
+            highest = data['Price'].max()
+            median = data['Price'].median()
+            mode = data['Price'].mode()
+            mean = data['Price'].mean()
+            return render_template("priceselect.html", tables=[data.to_html()], titles=data.columns.values, pricereturn=pricereturn, options = options, lowest=lowest, highest=highest, median=median, mode=mode, mean=mean, currentbrand=currentbrand, currentmodel=currentmodel)
+        elif 'priceentry' in request.form:
+            finalresult = request.form.get("priceentry")
+            brandcheck = request.form.get("Brand:")
+            brandcheck = brandcheck.replace("[", "")
+            brandcheck = brandcheck.replace("]", "")
+            brandcheck = brandcheck.replace("'", "")
+            modelcheck = request.form.get("Model:")
+            modelcheck = modelcheck.replace("[", "")
+            modelcheck = modelcheck.replace("]", "")
+            modelcheck = modelcheck.replace("'", "")
+            data = data[data.Brand == brandcheck]
+            data = data[data.Model == modelcheck]
+            data = data[data['Price'] <= int(finalresult)]
+            return render_template("finale.html", tables=[data.to_html()], titles=data.columns.values, finalresult=finalresult)
     return fl.render_template('home.html', tables=[data.to_html()], titles=data.columns.values, options = options)
 
 @app.route('/modelselect')
