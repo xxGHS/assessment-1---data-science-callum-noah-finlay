@@ -1,145 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+<select id="BrandSelect">
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+</select>
+<title> Table </title>
 </head>
-
-<select id="Brand" class="attribute_price">
-  <option value="small">Select Brand:</option>
-  <option value="large">Large</option>
-</select>
-
-<select id="Model" class="attribute_price">
-  <option value="red">Select Model:</option>
-  <option value="green">Green</option>
-  <option value="black">Black</option>
-</select>
-
-<select id="Variant" class="attribute_price">
-  <option value="solids">Select Variant:</option>
-  <option value="checked">Checked</option>
-  <option value="dots">Dots</option>
-
-</select>
-
-<select id="Year" class="attribute_price">
-    <option value="solids">Select Year:</option>
-    <option value="checked">Checked</option>
-    <option value="dots">Dots</option>
-  
-  </select>
-
-<select id="Kilometers" class="attribute_price">
-    <option value="solids">Select Kilometers:</option>
-    <option value="checked">Checked</option>
-    <option value="dots">Dots</option>
-  
-  </select>
-
-<select id="Type" class="attribute_price">
-    <option value="solids">Select Type:</option>
-    <option value="checked">Checked</option>
-    <option value="dots">Dots</option>
-  
-  </select>
-
-<select id="Gearbox" class="attribute_price">
-    <option value="solids">Select Gearbox:</option>
-    <option value="checked">Checked</option>
-    <option value="dots">Dots</option>
-  
-  </select>
-
-<select id="Fuel" class="attribute_price">
-    <option value="solids">Select Fuel:</option>
-    <option value="checked">Checked</option>
-    <option value="dots">Dots</option>
-
-  </select>
-
-<select id="Status" class="attribute_price">
-    <option value="solids">Select Status:</option>
-    <option value="checked">Checked</option>
-    <option value="dots">Dots</option>
-  
-  </select>
-
- <select id="Colour" class="attribute_price">
-    <option value="solids">Select Colour:</option>
-    <option value="checked">Checked</option>
-    <option value="dots">Dots</option>
-  
-  </select>
-
-<select id="Capacity" class="attribute_price">
-    <option value="solids">Select Capacity:</option>
-    <option value="checked">Checked</option>
-    <option value="dots">Dots</option>
-  
-  </select>
-
-<input type="hidden" id="small_red_solids" class="hidden_attribute_value">
-<input type="hidden" id="small_black_dots" class="hidden_attribute_value">
-<input type="hidden" id="large_green_checked" class="hidden_attribute_value">
+<body>
+<div align="center">
+<table>
+<h1>
+<!--Displaying the converted table-->
+{% for table in tables %}
+<h2>{{titles[loop.index]}}</h2>
+{{ table|safe }}
+{% endfor %}
+</h1>
+</table>
+</div>
+</body>
+</html>
 
 <script>
-
-  // on page load 
-  $( document ).ready(function() {
-    renderOptions();
-});
-
-
-  $("select.attribute_price").on("change", function () {
-    renderOptions();
-  });
-
-  function renderOptions() {
-    // create an array of all of the possible values that it can be
-    // allowed_attribute_values = ['small_red', 'large_blue']
-    var allowed_attribute_values = [];
-    var all_attributes = document.getElementsByClassName("hidden_attribute_value");
-    for (var i = 0; i < all_attributes.length; i++) {
-      allowed_attribute_values.push(all_attributes[i].id);
-    }
-
-    function getAllPossibleValues(current_level, all_attributes) {
-      var depth_index = all_attributes.length;
-      var selected_combination = '';
-      for (var i = 0; i < depth_index; i++) {
-        if (i <= current_level) {
-          selected_combination += all_attributes[i].value;
-          if (i != all_attributes.length - 1) {
-            selected_combination += '_';
-          }
-        }
-      }
-
-      // hide all lower options
-      for (var i = current_level + 1; i < depth_index; i++) {
-        var selectedIdOptions = all_attributes[i].options;
-        all_attributes[i].value = null
-        for (var j = 0; j < selectedIdOptions.length; j++) {
-          // hide all lower options
-          selectedIdOptions[j].hidden = true;
-          var el = allowed_attribute_values.find(a => a.includes(selected_combination + selectedIdOptions[j].value));
-          if (el) {
-            selectedIdOptions[j].hidden = false;
-          }
-        }
-      }
-    }
-
-    if (event) {
-      var id = event.target.id;
-    } else {
-      var id = document.getElementsByClassName("attribute_price")[0].id;
-    }
-
-    var other_attributes = document.getElementsByClassName("attribute_price");
-    for (var i = 0; i < other_attributes.length; i++) {
-      if (other_attributes[i].id == id) {
-        allPossibleValues = getAllPossibleValues(i, other_attributes);
-        // we dont want to go deeper as of now
-        break;
-      }
-    }
-  }
+var testnumber = 1;
+for (var i = 0; i < 10; i++) {
+  var option = document.createElement("option");
+  option.text = "Text" + (testnumber);
+  option.value = "myvalue" + (testnumber);
+  var select = document.getElementById("BrandSelect");
+  select.appendChild(option);
+  var testnumber = i + 1;
+  ;
+}
 </script>
