@@ -48,4 +48,4 @@ Good luck
 
 ----- ACTUAL README STARTS HERE -----
 Our documentation was done making use of Gitbook, which is linked below.
-https://app.gitbook.com/o/rDCtoWjTiFnv3zvbRYmo/s/YUrdCeAE81CNhdUbKl5H/
+(https://gronkaa.gitbook.io/main/)
