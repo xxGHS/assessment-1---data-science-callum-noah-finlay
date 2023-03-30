@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title> Table </title>
+</head>
+<body>
+<p> Selected Price: {{ finalresult }}</p>
+<div align="center">
+<table>
+<h1>
+<!--Displaying the converted table-->
+Currently Available Cars
+{% for table in tables %}
+<h2>{{titles[loop.index]}}</h2>
+{{ table|safe }}
+{% endfor %}
+</h1>
+</table>
+<form method="POST" style="margin-left: 20px;">
+    <input type="submit" value="Restart" />
+</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<h1>Price Selector</h1>
+<p>Mean: {{ mean }}</p>
+<p>Median: {{ median }}</p>
+<p>Mode: {{ mode }}</p>
+<p>Please select the maximum price</p>
+
+<form method="POST" style="margin-left: 20px;">
+    <select name="Brand:">
+        <option value={{ currentbrand }}>{{ currentbrand }}</option>   
+    </select>
+    <select name="Model:">
+        <option value={{ currentmodel }}>{{ currentmodel }}</option>   
+    </select>
+    <input type="range" min={{ lowest }} max= {{ highest }} name="priceentry" oninput="this.nextElementSibling.value = this.value"> />
+    <output>{{ lowest }}</output>
+    <input type="submit" value="submit" />
+</form>
+
+<div align="center">
+    <table>
+    <h1>
+    Currently Available Cars
+    <!--Displaying the converted table-->
+    {% for table in tables %}
+    <h2>{{titles[loop.index]}}</h2>
+    {{ table|safe }}
+    {% endfor %}
+    </h1>
+    </table>
+    </div>
+
+</body>
+</html>
