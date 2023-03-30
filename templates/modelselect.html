@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<p> Template: ModelSelect </p>
-<p>Variable: {{ modelreturn }}</p>
 <form method="POST" style="margin-left: 20px;">
   <label for="Model">Select a model:</label>
   <select id="Model" name="modelentry">
@@ -17,6 +15,7 @@
 <div align="center">
 <table>
 <h1>
+Currently Available Cars
 <!--Displaying the converted table-->
 {% for table in tables %}
 <h2>{{titles[loop.index]}}</h2>
