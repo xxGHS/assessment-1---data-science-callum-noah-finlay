@@ -99,24 +99,6 @@ def home(name=None):
             return render_template("finale.html", tables=[data.to_html()], titles=data.columns.values, finalresult=finalresult)
     return fl.render_template('home.html', tables=[data.to_html()], titles=data.columns.values, options = options)
 
-@app.route('/modelselect')
-def modela():
-    data = pd.read_csv('cars.csv')
-    options = [{'label': i, 'value': i} for i in dfmodels['Model'].unique()]
-    return fl.render_template('modelselect.html', tables=[data.to_html()], titles=data.columns.values, options = options)
-
-@app.route('/priceselect')
-def pricea():
-    data = pd.read_csv('cars.csv')
-    options = [{'label': i, 'value': i} for i in df['Price'].unique()]
-    return fl.render_template('priceselect.html', tables=[data.to_html()], titles=data.columns.values, options = options)
-
-@app.route('/gearboxselect')
-def gearboxa():
-    data = pd.read_csv('cars.csv')
-    options = [{'label': i, 'value': i} for i in df['Gearbox'].unique()]
-    return fl.render_template('gearboxselect.html', tables=[data.to_html()], titles=data.columns.values, options = options)
-
 # run the app
 if __name__ == '__main__':
     app.run()
